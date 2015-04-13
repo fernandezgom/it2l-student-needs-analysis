@@ -1,5 +1,6 @@
 package com.italk2learn.sna;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +54,12 @@ public class Analysis {
         if (student == null) student = new StudentModel();
 		student.setPTD(result);
 	}
+	
+	public void getNextStructuredTask(StudentNeedsAnalysis sna, int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, boolean Trial){
+		calculateStudentChallenge();
+		Reasoner reasoner = new Reasoner(student);
+		reasoner.getNextStructuredTask(sna, whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
+	}
 
 
 	public void analyseFeedbackAndSetNewTask(StudentNeedsAnalysis sna) {
@@ -79,134 +86,47 @@ public class Analysis {
 		 * 2=flow
 		 * 3=underchallenged
 		 */
-		if (valuePTP == 1){
-			if (!student.getIncludesAffect()){
-				studentChallenge = StudentChallenge.overChallenged;
-			}
-			else {
-				if (feedbackAmount > lotsFeedback){
-					studentChallenge = StudentChallenge.overChallenged;
-				}
-				else if (feedbackAmount > someFeedback){
-					if (mostAffectiveState == Affect.flow){
-						studentChallenge = StudentChallenge.flow;
-					}
-					else {
-						studentChallenge = StudentChallenge.overChallenged;
-					}
-				}
-				else {
-					if ((mostAffectiveState == Affect.boredom) ||
-						(mostAffectiveState == Affect.flow)){
-						studentChallenge = StudentChallenge.flow;
-					}
-					else {
-						studentChallenge = StudentChallenge.overChallenged;
-					}
-				}
-			}
-		}
-		else if (valuePTP == 2){
-			if (feedbackAmount > lotsFeedback){
-				if (student.getIncludesAffect() && (mostAffectiveState == Affect.flow)){
+		if (feedbackAmount > lotsFeedback){
+			studentChallenge = StudentChallenge.overChallenged;
+			if (valuePTP == 3){
+				if ((mostAffectiveState == Affect.boredom) || (mostAffectiveState == Affect.flow)){
 					studentChallenge = StudentChallenge.flow;
 				}
-				else {
+			}
+		}
+		else if (feedbackAmount > someFeedback){
+			studentChallenge = StudentChallenge.flow;
+			if ((valuePTP == 1) ||  (valuePTP == -1)){
+				if ((mostAffectiveState == Affect.confusion) || (mostAffectiveState == Affect.frustration)){
 					studentChallenge = StudentChallenge.overChallenged;
 				}
 			}
-			else if (feedbackAmount > someFeedback){
-				if (!student.getIncludesAffect()){
-					studentChallenge = StudentChallenge.flow;
-				}
-				else {
-					if ((mostAffectiveState == Affect.boredom) ||
-						(mostAffectiveState == Affect.flow)){
-						studentChallenge = StudentChallenge.flow;
-					}
-					else {
-						studentChallenge = StudentChallenge.overChallenged;
-					}
-				}
-			}
-			else {
-				if (!student.getIncludesAffect()) {
-					studentChallenge = StudentChallenge.overChallenged;
-				}
-				else {
-					if ((mostAffectiveState == Affect.boredom) ||
-						(mostAffectiveState == Affect.flow)){
-						studentChallenge = StudentChallenge.flow;
-					}
-					else {
-						studentChallenge = StudentChallenge.overChallenged;
-					}
+			else if (valuePTP == 3){
+				if ((mostAffectiveState == Affect.boredom) || (mostAffectiveState == Affect.flow)){
+					studentChallenge = StudentChallenge.underChallenged;
 				}
 			}
 		}
-		else if (valuePTP == 3){
-			if (feedbackAmount > lotsFeedback){
-				if (!student.getIncludesAffect()){
-					studentChallenge = StudentChallenge.overChallenged;
-				}
-				else {
-					if ((mostAffectiveState == Affect.confusion) ||
-						(mostAffectiveState == Affect.frustration)){
-						studentChallenge = StudentChallenge.overChallenged;
-					}
-					else if (mostAffectiveState == Affect.boredom){
-						studentChallenge = StudentChallenge.underChallenged;
-					}
-					else {
-						studentChallenge = StudentChallenge.flow;
-					}
-				}
-			}
-			else if (feedbackAmount > someFeedback){
-				if (!student.getIncludesAffect()){
-					studentChallenge = StudentChallenge.underChallenged;
-				}
-				else {
-					if (mostAffectiveState == Affect.confusion){
-						studentChallenge = StudentChallenge.overChallenged;
-					}
-					else if (mostAffectiveState == Affect.frustration){
-						studentChallenge = StudentChallenge.flow;
-					}
-					else {
-						studentChallenge = StudentChallenge.underChallenged;
-					}
-				}
-			}
-			else {
-				if (!student.getIncludesAffect()){
-					studentChallenge = StudentChallenge.underChallenged;
-				}
-				else {
-					if (mostAffectiveState == Affect.confusion){
-						studentChallenge = StudentChallenge.overChallenged;
-					}
-					else if (mostAffectiveState == Affect.frustration){
-						studentChallenge = StudentChallenge.flow;
-					}
-					else {
-						studentChallenge = StudentChallenge.underChallenged;
-					}
-				}
-			}
-			
-		}
-		else if (valuePTP == -1){
-			if (feedbackAmount > lotsFeedback){
-				studentChallenge = StudentChallenge.overChallenged;
-			}
-			else if (feedbackAmount > someFeedback){
+		else {
+			studentChallenge = StudentChallenge.underChallenged;
+			if (valuePTP == 1){
 				studentChallenge = StudentChallenge.flow;
+				if (mostAffectiveState == Affect.boredom){
+					studentChallenge = StudentChallenge.underChallenged;
+				}
+			}
+			else if (valuePTP == 2){
+				if ((mostAffectiveState == Affect.confusion) || (mostAffectiveState == Affect.frustration)){
+					studentChallenge = StudentChallenge.flow;
+				}
 			}
 			else {
-				studentChallenge = StudentChallenge.underChallenged;
+				if (mostAffectiveState == Affect.confusion){
+					studentChallenge = StudentChallenge.flow;
+				}
 			}
 		}
+
 		printStudentChallenge(studentChallenge);
 		student.setStudentChallenge(studentChallenge);
 	}

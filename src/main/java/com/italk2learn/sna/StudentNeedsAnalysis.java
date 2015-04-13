@@ -1,19 +1,20 @@
 package com.italk2learn.sna;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Timestamp;
+
+import org.springframework.stereotype.Service;
+
+import com.italk2learn.sna.inter.IStudentNeedsAnalysis;
 
 
-
-import java.util.ArrayList;
-import java.util.List;
-
-
-public class StudentNeedsAnalysis {
-	
+@Service("studentNeedsAnalysisService")
+public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 	public byte[] audioStudent;
 	public String nextTask;
 	private StudentModel student;
+	private boolean exploratoryExercise = true;
+	private boolean whizzExercise = false;
+	private boolean fractionsTutorExercise = false;
 	
 	public StudentNeedsAnalysis(){
 		student = new StudentModel();
@@ -56,10 +57,16 @@ public class StudentNeedsAnalysis {
 	}
 	
 	
-	public void calculateNextTask(){
+	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, boolean Trial){
 		Analysis analysis = new Analysis(student);
 		analysis.analyseSound(audioStudent);
-		analysis.analyseFeedbackAndSetNewTask(this);	
+		if (isExploratoryExercise()){
+			analysis.analyseFeedbackAndSetNewTask(this);
+		}
+		else {
+			analysis.getNextStructuredTask(this, whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
+		}
+			
 		student.resetAffectValues();
 	}
 	
@@ -81,8 +88,39 @@ public class StudentNeedsAnalysis {
 		return result;
 	}
 	
+	public void setExploratoryExercise(boolean value){
+		exploratoryExercise = value;
+		if (value){
+			setWhizzExercise(false);
+			setFractionsTutorExercise(false);
+		}
+	}
 	
+	private boolean isExploratoryExercise(){
+		return exploratoryExercise;
+	}
 	
+	public void setWhizzExercise(boolean value){
+		whizzExercise = value;
+		if (value){
+			setExploratoryExercise(false);
+			setFractionsTutorExercise(false);
+		}
+	}
 	
-
+	public boolean isWhizzExercise(){
+		return whizzExercise;
+	}
+	
+	public void setFractionsTutorExercise(boolean value){
+		fractionsTutorExercise = value;
+		if (value){
+			setExploratoryExercise(false);
+			setWhizzExercise(false);
+		}
+	}
+	
+	public boolean isFractionsTutorExercise(){
+		return fractionsTutorExercise;
+	}
 }
