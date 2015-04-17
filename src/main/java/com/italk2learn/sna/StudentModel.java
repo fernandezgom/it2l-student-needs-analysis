@@ -3,7 +3,13 @@ package com.italk2learn.sna;
 
 public class StudentModel {
 	
+	String currentExercise = "task2.2";
+	String lastExploratoryExercise = "";
+	int lastStudentChallenge = 0;
+	
 	boolean includesAffect = false;
+	
+	boolean inEngland = true;
 	
 	int amountNextStep = 0;
 	int amountProblemSolving = 0;
@@ -19,7 +25,63 @@ public class StudentModel {
 	int amountFlow = 0;
 	int amountSurprise = 0;
 	
+	int amountArea = 0;
+	int amountNumb = 0;
+	int amountSets = 0;
+	int amountLiqu = 0;
+	
 	int studentChallenge = 0;
+	
+	int unstructuredTaskCounter = 0;
+	int structuredTaskCounter = 0;
+	
+	public void setLastExploratoryExercise(String value){
+		lastExploratoryExercise = value;
+	}
+	
+	public String getLastExploratoryExercise(){
+		return lastExploratoryExercise;
+	}
+	
+	public void setLastStudentChallenge(int value){
+		lastStudentChallenge = value;
+	}
+	
+	public int getLastStudentChallenge(){
+		return lastStudentChallenge;
+	}
+	
+	public void setInEngland(boolean value){
+		inEngland = value;
+	}
+	
+	public boolean getInEngland(){
+		return inEngland;
+	}
+	
+	public void setCurrentExercise(String value){
+		currentExercise = value;
+	}
+	
+	public String getCurrentExercise(){
+		return currentExercise;
+	}
+	
+	public void setUnstructuredTaskCounter(int value){
+		unstructuredTaskCounter = value;
+	}
+	
+	public int getUnstructuredTaskCounter(){
+		return unstructuredTaskCounter;
+	}
+	
+	public void setStructuredTaskCounter(int value){
+		structuredTaskCounter = value;
+	}
+	
+	public int getStructuredTaskCounter(){
+		return structuredTaskCounter;
+	}
 	
 	public void setStudentChallenge(int value){
 		studentChallenge = value;
@@ -69,6 +131,17 @@ public class StudentModel {
 		
 		PTD = 0;
 	}
+	
+	public void resetFeedbackValues(){
+		amountNextStep = 0;
+		amountProblemSolving = 0;
+		amountAffectBoosts = 0;
+		amountMathsVocab = 0;
+		amountTalkAloud = 0;
+		amountReflection = 0;
+		amountAffirmation = 0;
+	}
+	
 	
 	public void addAmountConfusion(){
 		amountConfusion += 1;
@@ -167,4 +240,36 @@ public class StudentModel {
 		return amountSurprise;
 	}
 
+	public void addAmountArea(){
+		amountArea += 1;
+	}
+	
+	public int getAmountArea(){
+		return amountArea;
+	}
+	
+	public void addAmountNumb(){
+		amountNumb +=1;
+	}
+	
+	public int getAmountNumb(){
+		return amountNumb;
+	}
+	
+	public void addAmountSets(){
+		amountSets +=1;
+	}
+	
+	public int getAmountSets(){
+		return amountSets;
+	}
+	
+	public void addAmountLiqu(){
+		amountLiqu +=1;
+	}
+	
+	public int getAmountLiqu(){
+		return amountLiqu;
+	}
+	
 }

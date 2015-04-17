@@ -2,23 +2,67 @@ package com.italk2learn.sna;
 
 import java.sql.Timestamp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
+import com.italk2learn.sna.exception.SNAException;
 import com.italk2learn.sna.inter.IStudentNeedsAnalysis;
 
 
 @Service("studentNeedsAnalysisService")
+@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
+	
+	private static final Logger logger = LoggerFactory.getLogger(StudentNeedsAnalysis.class);
 	public byte[] audioStudent;
 	public String nextTask;
 	private StudentModel student;
 	private boolean exploratoryExercise = true;
 	private boolean whizzExercise = false;
 	private boolean fractionsTutorExercise = false;
+	private String taskDescription;
+	private boolean[] representationsFL = {true,true,true,true};
+	
 	
 	public StudentNeedsAnalysis(){
 		student = new StudentModel();
 	}
+	
+	public void setInEngland(boolean value){
+		student.setInEngland(value);
+	}
+	
+	public boolean getEngland(){
+		return student.getInEngland();
+	}
+	
+	public void sendRepresentationTypeToSNA(String representationType){
+		String area1 = "HRects";
+		String area2 = "VRects";
+		String numb = "NumberedLines";
+		String sets1 = "MoonSets";
+		String sets2 = "StarSets";
+		String sets3 = "HeartSets";
+		String liqu = "LiquidMeasures";
+		
+		if (representationType.equals(area1) || representationType.equals(area2)){
+			student.addAmountArea();
+		}
+		else if (representationType.equals(numb)){
+			student.addAmountNumb();
+		}
+		else if (representationType.equals(sets1) || representationType.equals(sets2) || representationType.equals(sets3)){
+			student.addAmountSets();
+		}
+		else if (representationType.equals(liqu)){
+			student.addAmountLiqu();
+		}
+		
+	}
+	
 	
 	public void sendFeedbackTypeToSNA(String feedbackType){
 		String talkAloud = "TALK_ALOUD";
@@ -57,17 +101,32 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 	}
 	
 	
-	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, boolean Trial){
+	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, boolean Trial) throws SNAException{
+		logger.info("JLF StudentNeedsAnalysis calculateNextTask() ---");
 		Analysis analysis = new Analysis(student);
 		analysis.analyseSound(audioStudent);
 		if (isExploratoryExercise()){
+			int counter = student.getUnstructuredTaskCounter();
+			counter +=1;
+			student.setUnstructuredTaskCounter(counter);
+			student.setStructuredTaskCounter(0);
 			analysis.analyseFeedbackAndSetNewTask(this);
 		}
 		else {
-			analysis.getNextStructuredTask(this, whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
+			int counter = student.getStructuredTaskCounter();
+			counter +=1;
+			student.setStructuredTaskCounter(counter);
+			student.setUnstructuredTaskCounter(0);
+			try {
+				analysis.getNextStructuredTask(this, whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
+			} catch (SNAException e) {
+				// TODO Auto-generated catch block
+				throw new SNAException(new Exception(), e.getSnamessage());
+			}
 		}
 			
 		student.resetAffectValues();
+		student.resetFeedbackValues();
 	}
 	
 	public byte[] getAudio(){
@@ -80,7 +139,11 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 	
 	public void setNextTask(String task){
 		nextTask = task;
+		student.setCurrentExercise(task);
+		TaskInformationPackage tip = new TaskInformationPackage();
+		tip.calculateTaskDescriptionAndRepresentations(task, this);
 	}
+
 
 	public String getNextTask(){
 		String result = nextTask;
@@ -122,5 +185,21 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 	
 	public boolean isFractionsTutorExercise(){
 		return fractionsTutorExercise;
+	}
+	
+	public void setTaskDescription(String value){
+		taskDescription = value;
+	}
+	
+	public String getTaskDescription(){
+		return taskDescription;
+	}
+	
+	public void setAvailableRepresentationsInFL(boolean[] values){
+		representationsFL = values;
+	}
+	
+	public boolean[] getAvailableRepresentationsInFL(){
+		return representationsFL;
 	}
 }
