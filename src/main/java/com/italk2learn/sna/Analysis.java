@@ -24,28 +24,33 @@ public class Analysis {
 
 	
 	public void analyseSound(byte[] audioByteArray){
-//		String wavname;
-//        List<byte[]> exampleChunks = new ArrayList<byte[]>();
-//        exampleChunks.add(audioByteArray);
-//
-//        int numberOfChunksToCombine = exampleChunks.size();
-//
-//        CreateWav wavcreation = new CreateWav();
-//        for (int i = 0; i < numberOfChunksToCombine; i++) {
-//            wavcreation.addChunk(exampleChunks.get(i));
-//        }
-//
-//        // Initialize ptd classifier:
-//        PtdFromAmplitudes ptdAmpl = new PtdFromAmplitudes();
-//
-//        // get perceived task difficulty (ptd):
-//
-//        // Create wav from the last x (here numberOfChunksToCombine) chunks (x = seconds/5)
-//        wavname = wavcreation.createWavFileMonoOrStereo(numberOfChunksToCombine);
-//        
-//        int result = ptdAmpl.getPTD(wavname);
+		int result;
+		if (audioByteArray!=null && audioByteArray.length>0 ) {
+			String wavname;
+	        List<byte[]> exampleChunks = new ArrayList<byte[]>();
+	        exampleChunks.add(audioByteArray);
+	
+	        int numberOfChunksToCombine = exampleChunks.size();
+	
+	        CreateWav wavcreation = new CreateWav();
+	        for (int i = 0; i < numberOfChunksToCombine; i++) {
+	            wavcreation.addChunk(exampleChunks.get(i));
+	        }
+	
+	        // Initialize ptd classifier:
+	        PtdFromAmplitudes ptdAmpl = new PtdFromAmplitudes();
+	
+	        // get perceived task difficulty (ptd):
+	
+	        // Create wav from the last x (here numberOfChunksToCombine) chunks (x = seconds/5)
+	        wavname = wavcreation.createWavFileMonoOrStereo(numberOfChunksToCombine);
+	        
+	        result = ptdAmpl.getPTD(wavname);
         
-        int result=-1;
+		} else {
+			result=-1;
+		}
+        
         if (result == -1){
         	System.out.println("PTD: no result");
         }
@@ -63,7 +68,7 @@ public class Analysis {
 		student.setPTD(result);
 	}
 	
-	public void getNextStructuredTask(StudentNeedsAnalysis sna, int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, boolean Trial) throws SNAException{
+	public void getNextStructuredTask(StudentNeedsAnalysis sna, int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial) throws SNAException{
 		logger.info("JLF Analysis getNextStructuredTask() ---");
 		calculateStudentChallenge();
 		Reasoner reasoner = new Reasoner(student);

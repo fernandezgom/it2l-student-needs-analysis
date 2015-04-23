@@ -101,7 +101,7 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 	}
 	
 	
-	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, boolean Trial) throws SNAException{
+	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial) throws SNAException{
 		logger.info("JLF StudentNeedsAnalysis calculateNextTask() ---");
 		Analysis analysis = new Analysis(student);
 		analysis.analyseSound(audioStudent);

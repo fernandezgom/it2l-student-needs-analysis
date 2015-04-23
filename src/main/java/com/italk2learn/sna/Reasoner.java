@@ -306,12 +306,19 @@ public class Reasoner {
 		
 	}
 	
-	public void getNextStructuredTask(StudentNeedsAnalysis sna, int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, boolean Trial) throws SNAException {
+	public void getNextStructuredTask(StudentNeedsAnalysis sna, int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial) throws SNAException {
 		logger.info("getNextStructuredTask()---values--> whizzStudID="+whizzStudID+" whizzPrevContID="+whizzPrevContID+ " prevScore="+prevScore+ " timestamp"+timestamp.toString()+" WhizzSuggestion="+WhizzSuggestion +" trial="+Trial);
+		String message = null;
 		
 		String nextTask = "";
+		int counter=1;
 		
-		if (student.getUnstructuredTaskCounter() == 1){
+		if (student.getInEngland()){
+			counter=3;
+		}
+		
+		if ((student.getStructuredTaskCounter() >=1) && (student.getStructuredTaskCounter()<= counter)){
+			
 			//sequence next structured task
 			
 			if (sna.isWhizzExercise()) {
@@ -320,16 +327,16 @@ public class Reasoner {
 					logger.info("VPS for Whizz failed, getting fixed sequence");
 					String currentTask = student.getCurrentExercise();
 					nextTask=calculateNextWhizztask(currentTask);
-					throw new SNAException(new Exception(), "VPS for Whizz failed, getting fixed sequence");
+					message="VPS for Whizz failed, getting fixed sequence ---values--> whizzStudID="+whizzStudID+" whizzPrevContID="+whizzPrevContID+ " prevScore="+prevScore+ " timestamp"+timestamp.toString()+" WhizzSuggestion="+WhizzSuggestion +" trial="+Trial;
 				}
 			}
 			else { 
-				nextTask= FTSequencer.next(whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion);
+				nextTask= FTSequencer.next(whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
 				if ((nextTask == null) || nextTask.equals("") ||  nextTask.equals("-1")){
 					logger.info("VPS for CTAT failed, getting fixed sequence");
 					String currentTask = student.getCurrentExercise();
 					nextTask=calculateNextFTtask(currentTask);
-					throw new SNAException(new Exception(), "VPS for CTAT failed, getting fixed sequence");
+					message="VPS for CTAT failed, getting fixed sequence ---values--> whizzStudID="+whizzStudID+" whizzPrevContID="+whizzPrevContID+ " prevScore="+prevScore+ " timestamp"+timestamp.toString()+" WhizzSuggestion="+WhizzSuggestion +" trial="+Trial;
 				}
 			}
 		}
@@ -337,10 +344,12 @@ public class Reasoner {
 			//switch to next unstructured task
 			int studentChallenge = student.getLastStudentChallenge();
 			if (studentChallenge == StudentChallenge.flow) studentChallenge = StudentChallenge.underChallenged;
-			calculateNextUnstructuredTask(student.getLastExploratoryExercise(), studentChallenge);
+			nextTask=calculateNextUnstructuredTask(student.getLastExploratoryExercise(), studentChallenge);
 		}
-		
 		sna.setNextTask(nextTask);
+		if (message!=null && message.length()>0 ){
+			throw new SNAException(new Exception(),message);
+		}
 	}
 
 	private String calculateNextFTtask(String currentTask) {
@@ -363,27 +372,71 @@ public class Reasoner {
 
 	private String calculateNextWhizztask(String currentTask) {
 		String result = "MA_GBR_0825CAx0100";
-		
+		/////
 		if (currentTask.equals("MA_GBR_0800CAx0100")){
-			result = "MA_GBR_0825CAx0100";
+			result = "MA_GBR_0800CAp0100";
 		}
 		else if (currentTask.equals("MA_GBR_1125CAx0100")){
-			result = "MA_GBR_0700CAx0100";
+			result = "MA_GBR_1125CAp0100";
 		}
 		else if (currentTask.equals("MA_GBR_0850CAx0100")){
-			result = "MA_GBR_0700CAx0200";
+			result = "MA_GBR_0850CAp0100";
 		}
 		else if (currentTask.equals("MA_GBR_0950CAx0100")){
-			result = "MA_GBR_0825CAx0200";
+			result = "MA_GBR_0950CAp0100";
 		}
 		else if (currentTask.equals("MA_GBR_1150CAx0300")){
+			result = "MA_GBR_1150CAp0300";
+		}
+		else if (currentTask.equals("MA_GBR_1150CAx0100")){
+			result = "MA_GBR_1150CAp0100";
+		}
+		else if (currentTask.equals("MA_GBR_1150CAx0100")){
+			result = "MA_GBR_1150CAp0100";
+		}
+		////
+		else if (currentTask.equals("MA_GBR_0800CAp0100")){
+			result = "MA_GBR_0825CAx0100";
+		}
+		else if (currentTask.equals("MA_GBR_1125CAp0100")){
+			result = "MA_GBR_0700CAx0100";
+		}
+		else if (currentTask.equals("MA_GBR_0850CAp0100")){
+			result = "MA_GBR_0700CAx0200";
+		}
+		else if (currentTask.equals("MA_GBR_0950CAp0100")){
+			result = "MA_GBR_0825CAx0200";
+		}
+		else if (currentTask.equals("MA_GBR_1150CAp0300")){
 			result = "MA_GBR_0900CAx0100";
 		}
-		else if (currentTask.equals("MA_GBR_1150CAx0100")){
+		else if (currentTask.equals("MA_GBR_1150CAp0100")){
 			result = "MA_GBR_1200CAx0200";
 		}
-		else if (currentTask.equals("MA_GBR_1150CAx0100")){
+		else if (currentTask.equals("MA_GBR_1150CAp0100")){
 			result = "MA_GBR_1200CAx0200";
+		}
+		////
+		else if (currentTask.equals("MA_GBR_0825CAx0100")){
+			result = "MA_GBR_0825CAp0100";
+		}
+		else if (currentTask.equals("MA_GBR_0700CAx0100")){
+			result = "MA_GBR_0700CAp0100";
+		}
+		else if (currentTask.equals("MA_GBR_0700CAx0200")){
+			result = "MA_GBR_0700CAp0200";
+		}
+		else if (currentTask.equals("MA_GBR_0825CAx0200")){
+			result = "MA_GBR_0825CAp0200";
+		}
+		else if (currentTask.equals("MA_GBR_0900CAx0100")){
+			result = "MA_GBR_0900CAp0100";
+		}
+		else if (currentTask.equals("MA_GBR_1200CAx0200")){
+			result = "MA_GBR_1200CAp0200";
+		}
+		else if (currentTask.equals("MA_GBR_1200CAx0200")){
+			result = "MA_GBR_1200CAp0200";
 		}
 		
 		return result;
