@@ -9,6 +9,7 @@ import MFSeq.FTSequencer;
 import MFSeq.WhizzSequencer;
 
 import com.italk2learn.sna.exception.SNAException;
+import com.italk2learn.util.WhizzUtil;
 
 public class Reasoner {
 	StudentModel student;
@@ -274,32 +275,32 @@ public class Reasoner {
 		
 		if (currentTask.equals("task2.1")){
 			if (inEngland) nextTask = "MA_GBR_0800CAx0100";
-			else nextTask = "Task2_graph_9-12";
+			else nextTask = "task2graph_9-12";
 			
 		}
 		else if (currentTask.equals("task2.2")){
 			if (inEngland) nextTask = "MA_GBR_1125CAx0100";
-			else nextTask = "Task2_graph_9-12";
+			else nextTask = "task2graph_9-12";
 		}
 		else if (currentTask.equals("task2.3")){
 			if (inEngland) nextTask = "MA_GBR_0850CAx0100";
-			else nextTask = "Task2_graph_9-12";
+			else nextTask = "task2graph_9-12";
 		}
 		else if (currentTask.equals("task2.4")){
 			if (inEngland) nextTask = "MA_GBR_0950CAx0100";
-			else nextTask = "Task8_graph_1-5";
+			else nextTask = "task8graph_1-5";
 		}
 		else if (currentTask.equals("task2.5")){
 			if (inEngland) nextTask = "MA_GBR_1150CAx0300";
-			else nextTask = "Task8_graph_1-5";
+			else nextTask = "task8graph_1-5";
 		}
 		else if (currentTask.equals("task2.6")){
 			if (inEngland) nextTask = "MA_GBR_1150CAx0100";
-			else nextTask = "Task3_graph_1-2";
+			else nextTask = "task3graph_1-2";
 		}
 		else if (currentTask.equals("task2.7")){
 			if (inEngland) nextTask = "MA_GBR_1150CAx0100";
-			else nextTask = "Task1_graph_3-7";
+			else nextTask = "task1graph_3-7";
 		}
 		
 		return nextTask;
@@ -325,18 +326,20 @@ public class Reasoner {
 				nextTask= WhizzSequencer.next(whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
 				if ((nextTask == null) || nextTask.equals("") ||  nextTask.equals("-1")){
 					logger.info("VPS for Whizz failed, getting fixed sequence");
+					message="VPS for Whizz failed, getting fixed sequence ---values--> whizzStudID="+whizzStudID+" whizzPrevContID="+whizzPrevContID+ " prevScore="+prevScore+ " timestamp"+timestamp.toString()+" WhizzSuggestion="+WhizzSuggestion +" trial="+Trial+" VPS returned value="+nextTask;
 					String currentTask = student.getCurrentExercise();
 					nextTask=calculateNextWhizztask(currentTask);
-					message="VPS for Whizz failed, getting fixed sequence ---values--> whizzStudID="+whizzStudID+" whizzPrevContID="+whizzPrevContID+ " prevScore="+prevScore+ " timestamp"+timestamp.toString()+" WhizzSuggestion="+WhizzSuggestion +" trial="+Trial;
+				} else {
+					nextTask=WhizzUtil.unmarshallWhizz(nextTask);
 				}
 			}
 			else { 
 				nextTask= FTSequencer.next(whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
 				if ((nextTask == null) || nextTask.equals("") ||  nextTask.equals("-1")){
 					logger.info("VPS for CTAT failed, getting fixed sequence");
+					message="VPS for CTAT failed, getting fixed sequence ---values--> whizzStudID="+whizzStudID+" whizzPrevContID="+whizzPrevContID+ " prevScore="+prevScore+ " timestamp"+timestamp.toString()+" WhizzSuggestion="+WhizzSuggestion +" trial="+Trial +" VPS returned value="+nextTask;
 					String currentTask = student.getCurrentExercise();
 					nextTask=calculateNextFTtask(currentTask);
-					message="VPS for CTAT failed, getting fixed sequence ---values--> whizzStudID="+whizzStudID+" whizzPrevContID="+whizzPrevContID+ " prevScore="+prevScore+ " timestamp"+timestamp.toString()+" WhizzSuggestion="+WhizzSuggestion +" trial="+Trial;
 				}
 			}
 		}

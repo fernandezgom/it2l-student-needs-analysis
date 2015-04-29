@@ -43,7 +43,8 @@ public class Analysis {
 	        // get perceived task difficulty (ptd):
 	
 	        // Create wav from the last x (here numberOfChunksToCombine) chunks (x = seconds/5)
-	        wavname = wavcreation.createWavFileMonoOrStereo(numberOfChunksToCombine);
+	        //wavname = wavcreation.createWavFileMonoOrStereo(numberOfChunksToCombine);
+	        wavname = wavcreation.createWavFile(numberOfChunksToCombine);
 	        
 	        result = ptdAmpl.getPTD(wavname);
         
