@@ -137,11 +137,11 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 		audioStudent = currentAudioStudent;
 	}
 	
-	public void setNextTask(String task){
+	public void setNextTask(String task, boolean ft){
 		nextTask = task;
 		student.setCurrentExercise(task);
 		TaskInformationPackage tip = new TaskInformationPackage();
-		tip.calculateTaskDescriptionAndRepresentations(task, this);
+		tip.calculateTaskDescriptionAndRepresentations(task, this, ft);
 	}
 
 

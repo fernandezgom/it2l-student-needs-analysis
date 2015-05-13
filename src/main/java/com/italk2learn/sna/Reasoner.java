@@ -9,6 +9,7 @@ import MFSeq.FTSequencer;
 import MFSeq.WhizzSequencer;
 
 import com.italk2learn.sna.exception.SNAException;
+import com.italk2learn.sna.inter.Sequencer;
 import com.italk2learn.util.WhizzUtil;
 
 public class Reasoner {
@@ -36,7 +37,7 @@ public class Reasoner {
 			student.setLastExploratoryExercise(currenExercise);
 			student.setLastStudentChallenge(studentChallenge);
 		}
-		sna.setNextTask(nextTask);
+		sna.setNextTask(nextTask, false);
 	}
 	
 	private String getNextTaskForUnderChallgenge(String currenExercise){
@@ -310,6 +311,8 @@ public class Reasoner {
 	public void getNextStructuredTask(StudentNeedsAnalysis sna, int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial) throws SNAException {
 		logger.info("getNextStructuredTask()---values--> whizzStudID="+whizzStudID+" whizzPrevContID="+whizzPrevContID+ " prevScore="+prevScore+ " timestamp"+timestamp.toString()+" WhizzSuggestion="+WhizzSuggestion +" trial="+Trial);
 		String message = null;
+		boolean ft=false;
+		Sequencer sq=null; //JLF: Here is required to initialise, or VPsequencer or SNASequencer e,g new VPSequencer();
 		
 		String nextTask = "";
 		int counter=1;
@@ -323,7 +326,7 @@ public class Reasoner {
 			//sequence next structured task
 			
 			if (sna.isWhizzExercise()) {
-				nextTask= WhizzSequencer.next(whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
+				nextTask= sq.next(whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial, true);
 				if ((nextTask == null) || nextTask.equals("") ||  nextTask.equals("-1")){
 					logger.info("VPS for Whizz failed, getting fixed sequence");
 					message="VPS for Whizz failed, getting fixed sequence ---values--> whizzStudID="+whizzStudID+" whizzPrevContID="+whizzPrevContID+ " prevScore="+prevScore+ " timestamp"+timestamp.toString()+" WhizzSuggestion="+WhizzSuggestion +" trial="+Trial+" VPS returned value="+nextTask;
@@ -334,12 +337,15 @@ public class Reasoner {
 				}
 			}
 			else { 
-				nextTask= FTSequencer.next(whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
+				nextTask= sq.next(whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial, false);
 				if ((nextTask == null) || nextTask.equals("") ||  nextTask.equals("-1")){
 					logger.info("VPS for CTAT failed, getting fixed sequence");
 					message="VPS for CTAT failed, getting fixed sequence ---values--> whizzStudID="+whizzStudID+" whizzPrevContID="+whizzPrevContID+ " prevScore="+prevScore+ " timestamp"+timestamp.toString()+" WhizzSuggestion="+WhizzSuggestion +" trial="+Trial +" VPS returned value="+nextTask;
 					String currentTask = student.getCurrentExercise();
 					nextTask=calculateNextFTtask(currentTask);
+				} else {
+					nextTask="sequencer"+nextTask;
+					ft=true;
 				}
 			}
 		}
@@ -349,7 +355,7 @@ public class Reasoner {
 			if (studentChallenge == StudentChallenge.flow) studentChallenge = StudentChallenge.underChallenged;
 			nextTask=calculateNextUnstructuredTask(student.getLastExploratoryExercise(), studentChallenge);
 		}
-		sna.setNextTask(nextTask);
+		sna.setNextTask(nextTask,ft);
 		if (message!=null && message.length()>0 ){
 			throw new SNAException(new Exception(),message);
 		}
