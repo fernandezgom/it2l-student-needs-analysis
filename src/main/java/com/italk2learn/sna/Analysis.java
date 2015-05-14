@@ -96,6 +96,13 @@ public class Analysis {
 		int lotsFeedback = 7;
 		int someFeedback = 4;
 		
+		String lastFeedbackProvided = student.getLastFeedbackProvided();
+		
+		//this value needs to be checked.
+		if (lastFeedbackProvided.equals("TASK_NOT_FINISHED")){
+			feedbackAmount += 5;
+		}
+		
 		System.out.println(":: calculateStudentChallenge ::");
 		System.out.println(":: feedbackAmount :: "+feedbackAmount);
 		System.out.println("lotsFeedback: "+lotsFeedback);

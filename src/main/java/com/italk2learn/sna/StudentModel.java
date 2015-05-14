@@ -7,6 +7,8 @@ public class StudentModel {
 	String lastExploratoryExercise = "";
 	int lastStudentChallenge = 0;
 	
+	String lastFeedbackProvided = "";
+	
 	boolean includesAffect = false;
 	
 	boolean inEngland = true;
@@ -18,6 +20,7 @@ public class StudentModel {
 	int amountTalkAloud = 0;
 	int amountReflection = 0;
 	int amountAffirmation = 0;
+	int amountTaskNotFinished = 0;
 	
 	int amountConfusion = 0;
 	int amountFrustration = 0;
@@ -34,6 +37,28 @@ public class StudentModel {
 	
 	int unstructuredTaskCounter = 0;
 	int structuredTaskCounter = 0;
+	
+	public String getStudentChallengeAsString(){
+		String result = "";
+		if (studentChallenge == StudentChallenge.overChallenged){
+			result = "overChallenged";
+		}
+		else if (studentChallenge == StudentChallenge.underChallenged){
+			result = "underChallenged";
+		}
+		else if (studentChallenge == StudentChallenge.flow){
+			result = "flow";
+		}
+		return result;
+	}
+	
+	public void setLastFeedbackProvided(String value){
+		lastFeedbackProvided = value;
+	}
+	
+	public String getLastFeedbackProvided(){
+		return lastFeedbackProvided;
+	}
 	
 	public void setLastExploratoryExercise(String value){
 		lastExploratoryExercise = value;
@@ -230,6 +255,15 @@ public class StudentModel {
 	
 	public int getAmountAffirmation(){
 		return amountAffirmation;
+	}
+	
+	
+	public void addAmountTaskNotFinished(){
+		amountTaskNotFinished +=1;
+	}
+	
+	public int getAmountTaskNotFinished(){
+		return amountTaskNotFinished;
 	}
 	
 	public void addAmountSurprise(){

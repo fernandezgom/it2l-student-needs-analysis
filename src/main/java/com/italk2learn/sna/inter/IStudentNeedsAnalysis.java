@@ -31,5 +31,9 @@ public interface IStudentNeedsAnalysis {
 	public String getTaskDescription();
 	
 	public boolean[] getAvailableRepresentationsInFL();
+	
+	public void saveStudentModel(int idUser);
+	
+	public void setStudentModel(int idUser);
 
 }
