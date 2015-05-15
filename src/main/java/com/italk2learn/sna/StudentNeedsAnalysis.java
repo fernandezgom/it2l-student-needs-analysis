@@ -126,7 +126,7 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 	}
 	
 	public void setStudentModel(int idUser){
-		boolean isExploratoryExercise = true; 
+		//boolean isExploratoryExercise = true; 
 		int studentChallenge = 0;
 		String currentExercise = "task2.2"; 
 		int unstructuredCounter = 0; 
@@ -134,14 +134,21 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 		try {
 			Studentmodel sm = getStudentModelDAO().getCurrentStudentModelByUser(idUser);
 			if (sm!=null) {
-				if(sm.getIsExploratoryExercise()==0)
-					isExploratoryExercise = false;
+//				if(sm.getIsExploratoryExercise()==0)
+//					isExploratoryExercise = false;
 				studentChallenge = sm.getStudentChallenge();
 				currentExercise = sm.getCurrentExercise();
 				unstructuredCounter = sm.getUnstructuredCounter();
 				structuredCounter = sm.getStructuredCounter();
 			}
-			exploratoryExercise = isExploratoryExercise;
+			
+			if (currentExercise.contains("task2.")){
+				exploratoryExercise = true;
+			}
+			else {
+				exploratoryExercise = false;
+			}
+			//exploratoryExercise = isExploratoryExercise;
 			student.setStudentChallenge(studentChallenge);
 			student.setCurrentExercise(currentExercise);
 			student.setUnstructuredTaskCounter(unstructuredCounter);
@@ -200,10 +207,17 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 	}
 	
 	
-	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial) throws SNAException{
+	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial, boolean firstTask) throws SNAException{
 		logger.info("JLF StudentNeedsAnalysis calculateNextTask() ---");
+		if(firstTask){
+			setNextTask(student.getCurrentExercise());
+		}
+		else{
+		
 		Analysis analysis = new Analysis(student);
+		
 		analysis.analyseSound(audioStudent);
+
 		if (isExploratoryExercise()){
 			int counter = student.getUnstructuredTaskCounter();
 			counter +=1;
@@ -226,6 +240,7 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 			
 		student.resetAffectValues();
 		student.resetFeedbackValues();
+		}
 	}
 	
 	public byte[] getAudio(){

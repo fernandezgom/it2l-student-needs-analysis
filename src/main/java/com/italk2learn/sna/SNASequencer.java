@@ -18,19 +18,19 @@ public class SNASequencer implements Sequencer {
 	}
 	
 	private String calculateNextFTtask(String currentTask) {
-		String result = "Task2_graph_8-12";
+		String result = "task2graph_8-12";
 		
-		if (currentTask.equals("Task2_graph_9-12")){
-			result = "Task2_graph_8-12";
+		if (currentTask.equals("task2graph_9-12")){
+			result = "task2graph_8-12";
 		}
-		else if (currentTask.equals("Task8_graph_1-5")){
-			result = "Task5_graph_3-4";
+		else if (currentTask.equals("task8graph_1-5")){
+			result = "task5graph_3-4";
 		}
-		else if (currentTask.equals("Task3_graph_1-2")){
-			result = "Task3_graph_2-5";
+		else if (currentTask.equals("task3graph_1-2")){
+			result = "task3graph_2-5";
 		}
-		else if (currentTask.equals("Task1_graph_3-7")){
-			result = "Task1_graph_1-4";
+		else if (currentTask.equals("task1graph_3-7")){
+			result = "task1graph_1-4";
 		}	
 		return result;
 	}

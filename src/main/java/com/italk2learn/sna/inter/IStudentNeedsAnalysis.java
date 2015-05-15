@@ -14,7 +14,7 @@ public interface IStudentNeedsAnalysis {
 	
 	public void setAudio(byte[] currentAudioStudent);
 	
-	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial) throws SNAException;
+	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial, boolean firstTask) throws SNAException;
 	
 	public String getNextTask();
 	
