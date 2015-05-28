@@ -43,4 +43,44 @@ public class TaskDescription {
 	public static String task2Point7setC = "Make a fraction that equals 7/3 and has 12 as denominator. Check it is equivalent to 7/3, by using the 'Compare' box.";
 
 
+	
+	public static String gtask2Point1 = " Überlege dir einen Bruch und stelle ihn als Zahlenstrahl, Rechteck, Messbecher und Form (z.B. Stern, Herz, Mond) dar.";
+
+	public static String gtask2Point2 =  " Erstelle einen Bruch und klicke mit der rechten Maustaste auf ihn. Wähle im Menü „Finde eine wertgleichen Bruch“ und zerteile den Bruch in 2, 3, 4 und 5.";
+
+	public static String gtask2Point4setAarea = "Erstelle einen Bruch, der wertgleich zum Bruch 1/2 ist. Benutze dafür Rechtecke. Prüfe, ob dein Bruch wertgleich zum Bruch 1/2 ist, indem du die Vergleichsfunktion (am Rand oben) nutzt.";
+
+	public static String gtask2Point4setBarea = "Erstelle einen Bruch, der wertgleich zum Bruch 3/4 ist. Benutze dafür Rechtecke. Prüfe, ob dein Bruch wertgleich zum Bruch 3/4 ist, indem du die Vergleichsfunktion (am Rand oben) nutzt."; 
+
+	public static String gtask2Point4setCarea = "Erstelle einen Bruch, der wertgleich zum Bruch 7/3 ist. Benutze dafür den Messbecher. Prüfe, ob dein Bruch wertgleich zum Bruch 7/3 ist, indem du die Vergleichsfunktion (am Rand oben) nutzt.";
+
+	public static String gtask2Point4setAnumb = "Erstelle einen Bruch, der wertgleich zum Bruch 1/2 ist. Benutze dafür Zahlenstrahle. Prüfe, ob dein Bruch wertgleich zum Bruch 1/2 ist, indem du die Vergleichsfunktion (am Rand oben) nutzt."; 
+
+	public static String gtask2Point4setBnumb = "Erstelle einen Bruch, der wertgleich zum Bruch 3/4 ist. Benutze dafür Zahlenstrahle. Prüfe, ob dein Bruch wertgleich zum Bruch 3/4 ist, indem du die Vergleichsfunktion (am Rand oben) nutzt."; 
+
+	public static String gtask2Point4setCnumb = "Erstelle einen Bruch, der wertgleich zum Bruch 7/3 ist. Benutze dafür Zahlenstrahle. Prüfe, ob dein Bruch wertgleich zum Bruch 7/3 ist, indem du die Vergleichsfunktion (am Rand oben) nutzt.";
+
+	public static String gtask2Point4setAsets = "Erstelle einen Bruch, der wertgleich zum Bruch 1/2 ist. Benutze dafür eine der Formen (z.B. Stern, Herz, Mond). Prüfe, ob dein Bruch wertgleich zum Bruch 1/2 ist, indem du die Vergleichsfunktion (am Rand oben) nutzt."; 
+
+	public static String gtask2Point4setBsets = "Erstelle einen Bruch, der wertgleich zum Bruch 3/4 ist. Benutze dafür eine der Formen (z.B. Stern, Herz, Mond). Prüfe, ob dein Bruch wertgleich zum Bruch 3/4  ist, indem du die Vergleichsfunktion (am Rand oben) nutzt."; 
+
+	public static String gtask2Point4setCsets = "Erstelle einen Bruch, der wertgleich zum Bruch 7/3 ist. Benutze dafür eine der Formen (z.B. Stern, Herz, Mond). Prüfe, ob dein Bruch wertgleich zum Bruch 7/3  ist, indem du die Vergleichsfunktion (am Rand oben) nutzt."; 
+
+	public static String gtask2Point4setAliqu = "Erstelle einen Bruch, der wertgleich zum Bruch 1/2 ist. Benutze dafür Messbecher. Prüfe, ob dein Bruch wertgleich zum Bruch 1/2 ist, indem du die Vergleichsfunktion (am Rand oben) nutzt.";
+
+	public static String gtask2Point4setBliqu = "Erstelle einen Bruch, der wertgleich zum Bruch 3/4 ist. Benutze dafür Messbecher. Prüfe, ob dein Bruch wertgleich zum Bruch 3/4  ist, indem du die Vergleichsfunktion (am Rand oben) nutzt.";
+
+	public static String gtask2Point4setCliqu = "Erstelle einen Bruch, der wertgleich zum Bruch 7/3 ist. Benutze dafür Messbecher. Prüfe, ob dein Bruch wertgleich zum Bruch 7/3  ist, indem du die Vergleichsfunktion (am Rand oben) nutzt.";
+
+	public static String gtask2Point6setA = "Michael sagt: '3/4 = 1/12, weil 3 mal 4 ergibt 12.' Zeige mithilfe der Vergleichsfunktion (am Rand oben), ob du Michael zustimmst oder nicht."; 
+
+	public static String gtask2Point6setB = "Anna sagt: '2/5 = 1/10, weil 2 mal 5 ergibt 10.' Zeige mithilfe der Vergleichsfunktion (am Rand oben), ob du Michael zustimmst oder nicht."; 
+
+	public static String gtask2Point6setC = "Amir sagt: '7/3 = 1/21, weil 7 mal 3 ergibt 21.' Zeige mithilfe der Vergleichsfunktion (am Rand oben), ob du Michael zustimmst oder nicht.";
+
+	public static String gtask2Point7setA = "Erstelle einen Bruch der wertgleich zu dem Bruch 1/6 ist und 18 als Nenner hat. Prüfe, ob dein Bruch wertgleich mit 1/6 ist, indem du die Vergleichsfunktion (am Rand oben) benutzt."; 
+
+	public static String gtask2Point7setB = "Erstelle einen Bruch der wertgleich zu dem Bruch 3/4 ist und 12 als Nenner hat. Prüfe, ob dein Bruch wertgleich mit 3/4 ist, indem du die Vergleichsfunktion (am Rand oben) benutzt.";
+	
+	public static String gtask2Point7setC = "Erstelle einen Bruch der wertgleich zu dem Bruch 7/3 ist und 12 als Nenner hat. Prüfe, ob dein Bruch wertgleich mit 7/3 ist, indem du die Vergleichsfunktion (am Rand oben) benutzt.";
 }

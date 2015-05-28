@@ -22,4 +22,9 @@ public class VPSequencer implements Sequencer {
 		  throw new IllegalStateException("Invalid structured activity type: " + type);
 	    }
 	}
+	
+	public String getRule() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

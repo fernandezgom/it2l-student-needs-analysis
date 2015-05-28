@@ -17,9 +17,11 @@ public class Analysis {
 	private static final Logger logger = LoggerFactory.getLogger(Analysis.class);
 	
 	StudentModel student;
+	StudentNeedsAnalysis sna;
 	
-	public Analysis(StudentModel thisStudent){
+	public Analysis(StudentModel thisStudent, StudentNeedsAnalysis snaValue){
 		student = thisStudent;
+		sna = snaValue;
 	}
 
 	
@@ -52,17 +54,23 @@ public class Analysis {
 			result=-1;
 		}
         
+		sna.saveLog("SNA.sc.PTDC.value", ""+result);
+		
         if (result == -1){
         	System.out.println("PTD: no result");
+        	sna.saveLog("SNA.sc.PTDC", "noResult");
         }
         else if (result == 1){
         	System.out.println("PTD: overchallenged");
+        	sna.saveLog("SNA.sc.PTDC", "overchallenged");
         }
         else if (result == 2){
         	System.out.println("PTD: flow");
+        	sna.saveLog("SNA.sc.PTDC", "flow");
         }
         else if (result == 3){
         	System.out.println("PTD: underchallenged");
+        	sna.saveLog("SNA.sc.PTDC", "underchallenged");
         }
         		
         if (student == null) student = new StudentModel();
@@ -98,8 +106,11 @@ public class Analysis {
 		
 		String lastFeedbackProvided = student.getLastFeedbackProvided();
 		
+		sna.saveLog("SNA.sc.feedbackAmount", ""+feedbackAmount);
+		
 		//this value needs to be checked.
 		if (lastFeedbackProvided.equals("TASK_NOT_FINISHED")){
+			sna.saveLog("SNA.sc.taskNotFinished", "feedback+5");
 			feedbackAmount += 5;
 		}
 		
@@ -118,6 +129,7 @@ public class Analysis {
 			if (valuePTP == 3){
 				if ((mostAffectiveState == Affect.boredom) || (mostAffectiveState == Affect.flow)){
 					studentChallenge = StudentChallenge.flow;
+					sna.saveLog("SNA.sc.rule", ""+"lotsFeedbackAndOverChallenged");
 				}
 			}
 		}
@@ -126,10 +138,12 @@ public class Analysis {
 			if ((valuePTP == 1) ||  (valuePTP == -1)){
 				if ((mostAffectiveState == Affect.confusion) || (mostAffectiveState == Affect.frustration)){
 					studentChallenge = StudentChallenge.overChallenged;
+					sna.saveLog("SNA.sc.rule", ""+"SomeFeedbackAndFlow");
 				}
 			}
 			else if (valuePTP == 3){
 				if ((mostAffectiveState == Affect.boredom) || (mostAffectiveState == Affect.flow)){
+					sna.saveLog("SNA.sc.rule", ""+"UnderChallengedAndFlow");
 					studentChallenge = StudentChallenge.underChallenged;
 				}
 			}
@@ -139,16 +153,19 @@ public class Analysis {
 			if (valuePTP == 1){
 				studentChallenge = StudentChallenge.flow;
 				if (mostAffectiveState == Affect.boredom){
+					sna.saveLog("SNA.sc.rule", ""+"UnderChallengedAndBoredom");
 					studentChallenge = StudentChallenge.underChallenged;
 				}
 			}
 			else if (valuePTP == 2){
 				if ((mostAffectiveState == Affect.confusion) || (mostAffectiveState == Affect.frustration)){
+					sna.saveLog("SNA.sc.rule", ""+"FlowdAndFrustration");
 					studentChallenge = StudentChallenge.flow;
 				}
 			}
 			else {
 				if (mostAffectiveState == Affect.confusion){
+					sna.saveLog("SNA.sc.rule", ""+"Confusion");
 					studentChallenge = StudentChallenge.flow;
 				}
 			}
@@ -161,12 +178,15 @@ public class Analysis {
 	private void printStudentChallenge(int studentChallenge){
 		if (studentChallenge == StudentChallenge.overChallenged){
 			System.out.println("::: student is over challenged :::");
+			sna.saveLog("SNA.sc", ""+"overChallenged");
 		}
 		else if (studentChallenge == StudentChallenge.flow){
 			System.out.println("::: student is in flow :::");
+			sna.saveLog("SNA.sc", ""+"flow");
 		}
 		else if (studentChallenge == StudentChallenge.underChallenged){
 			System.out.println("::: student is under challenged :::");
+			sna.saveLog("SNA.sc", ""+"underChallenged");
 		}
 	}
 
@@ -180,22 +200,26 @@ public class Analysis {
 		if ((amountConfusion > amountFrustration) &&
 				(amountConfusion > amountBoredom) &&
 				(amountConfusion > amountFlow)){
+			sna.saveLog("SNA.sc.TIS.affect", "confusion");
 			result = Affect.confusion;
 		}
 		else if ((amountFrustration > amountConfusion) &&
 				(amountFrustration > amountBoredom) &&
 				(amountFrustration > amountFlow)){
+			sna.saveLog("SNA.sc.TIS.affect", "frustration");
 			result = Affect.frustration;
 		}
 		else if ((amountBoredom > amountConfusion) &&
 				(amountBoredom > amountFrustration) &&
 				(amountBoredom > amountFlow)){
+			sna.saveLog("SNA.sc.TIS.affect", "boredom");
 			result = Affect.boredom;
 		}
 		
 		else if ((amountFlow > amountConfusion) &&
 				(amountFlow > amountFrustration) &&
 				(amountFlow > amountBoredom)){
+			sna.saveLog("SNA.sc.TIS.affect", "flow");
 			result = Affect.flow;
 		}
 		

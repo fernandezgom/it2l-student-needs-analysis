@@ -38,6 +38,16 @@ public class StudentModel {
 	int unstructuredTaskCounter = 0;
 	int structuredTaskCounter = 0;
 	
+	String rule = "";
+	
+	public void setRule(String value){
+		rule = value;
+	}
+	
+	public String getRule(){
+		return rule;
+	}
+	
 	public String getStudentChallengeAsString(){
 		String result = "";
 		if (studentChallenge == StudentChallenge.overChallenged){
