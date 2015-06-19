@@ -129,8 +129,14 @@ public class Analysis {
 			if (valuePTP == 3){
 				if ((mostAffectiveState == Affect.boredom) || (mostAffectiveState == Affect.flow)){
 					studentChallenge = StudentChallenge.flow;
-					sna.saveLog("SNA.sc.rule", ""+"lotsFeedbackAndOverChallenged");
+					sna.saveLog("SNA.sc.rule", ""+"lotsFeedbackAndOverChallenged1");
 				}
+				else {
+					sna.saveLog("SNA.sc.rule", ""+"lotsFeedbackAndOverChallenged2");
+				}
+			}
+			else {
+				sna.saveLog("SNA.sc.rule", ""+"lotsFeedbackAndOverChallengedElse");
 			}
 		}
 		else if (feedbackAmount > someFeedback){
@@ -138,14 +144,23 @@ public class Analysis {
 			if ((valuePTP == 1) ||  (valuePTP == -1)){
 				if ((mostAffectiveState == Affect.confusion) || (mostAffectiveState == Affect.frustration)){
 					studentChallenge = StudentChallenge.overChallenged;
-					sna.saveLog("SNA.sc.rule", ""+"SomeFeedbackAndFlow");
+					sna.saveLog("SNA.sc.rule", ""+"SomeFeedbackAndFlow1");
+				}
+				else {
+					sna.saveLog("SNA.sc.rule", ""+"SomeFeedbackAndFlow2");
 				}
 			}
 			else if (valuePTP == 3){
 				if ((mostAffectiveState == Affect.boredom) || (mostAffectiveState == Affect.flow)){
-					sna.saveLog("SNA.sc.rule", ""+"UnderChallengedAndFlow");
+					sna.saveLog("SNA.sc.rule", ""+"UnderChallengedAndFlow1");
 					studentChallenge = StudentChallenge.underChallenged;
 				}
+				else {
+					sna.saveLog("SNA.sc.rule", ""+"UnderChallengedAndFlow2");
+				}
+			}
+			else {
+				sna.saveLog("SNA.sc.rule", ""+"SomeFeedbackAndFlowElse");
 			}
 		}
 		else {
@@ -153,14 +168,20 @@ public class Analysis {
 			if (valuePTP == 1){
 				studentChallenge = StudentChallenge.flow;
 				if (mostAffectiveState == Affect.boredom){
-					sna.saveLog("SNA.sc.rule", ""+"UnderChallengedAndBoredom");
+					sna.saveLog("SNA.sc.rule", ""+"UnderChallengedAndBoredom1");
 					studentChallenge = StudentChallenge.underChallenged;
+				}
+				else {
+					sna.saveLog("SNA.sc.rule", ""+"UnderChallengedAndBoredom2");
 				}
 			}
 			else if (valuePTP == 2){
 				if ((mostAffectiveState == Affect.confusion) || (mostAffectiveState == Affect.frustration)){
-					sna.saveLog("SNA.sc.rule", ""+"FlowdAndFrustration");
+					sna.saveLog("SNA.sc.rule", ""+"FlowdAndFrustration1");
 					studentChallenge = StudentChallenge.flow;
+				}
+				else {
+					sna.saveLog("SNA.sc.rule", ""+"FlowdAndFrustration2");
 				}
 			}
 			else {

@@ -5,12 +5,8 @@ import java.sql.Timestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import MFSeq.FTSequencer;
-import MFSeq.WhizzSequencer;
-
 import com.italk2learn.sna.exception.SNAException;
 import com.italk2learn.sna.inter.Sequencer;
-import com.italk2learn.util.WhizzUtil;
 
 public class Reasoner {
 	StudentModel student;
@@ -86,7 +82,8 @@ public class Reasoner {
 			}
 			else {
 				rule = ("underChallenged_task2.7_else");
-				nextTask = "task2.4.setB";
+				String leastUsedRep = getLeastUsedRep();
+				nextTask = "task2.4.setB."+leastUsedRep;
 			}
 		}
 		student.setRule(rule);
@@ -111,7 +108,8 @@ public class Reasoner {
 			String fractionType = currenExercise.substring(8,12);
 			if (fractionType.equals("setA")){
 				rule = ("appChallenged_task2.4_setA");
-				nextTask = "task2.4.setB";
+				String leastUsedRep = getLeastUsedRep();
+				nextTask = "task2.4.setB."+leastUsedRep;
 			}
 			else {
 				rule = ("appChallenged_task2.4_else");
@@ -137,7 +135,8 @@ public class Reasoner {
 			}
 			else {
 				rule = ("appChallenged_task2.7_else");
-				nextTask = "task2.4.setB";
+				String leastUsedRep = getLeastUsedRep();
+				nextTask = "task2.4.setB."+leastUsedRep;
 			}
 		}
 		student.setRule(rule);
