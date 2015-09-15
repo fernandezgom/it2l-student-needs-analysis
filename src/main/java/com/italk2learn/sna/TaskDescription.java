@@ -73,10 +73,10 @@ public class TaskDescription {
 	public static String gtask2Point4setCliqu = "Erstelle einen Bruch, der wertgleich zum Bruch 7/3 ist. Benutze dafür Messbecher. Prüfe, ob dein Bruch wertgleich zum Bruch 7/3  ist, indem du die Vergleichsfunktion (am Rand oben) nutzt.";
 
 	public static String gtask2Point6setA = "Michael sagt: '3/4 = 1/12, weil 3 mal 4 ergibt 12.' Zeige mithilfe der Vergleichsfunktion (am Rand oben), ob du Michael zustimmst oder nicht."; 
+	
+	public static String gtask2Point6setB = "Anna sagt: '2/5 = 1/10, weil 2 mal 5 ergibt 10.' Zeige mithilfe der Vergleichsfunktion (am Rand oben), ob du Anna zustimmst oder nicht."; 
 
-	public static String gtask2Point6setB = "Anna sagt: '2/5 = 1/10, weil 2 mal 5 ergibt 10.' Zeige mithilfe der Vergleichsfunktion (am Rand oben), ob du Michael zustimmst oder nicht."; 
-
-	public static String gtask2Point6setC = "Amir sagt: '7/3 = 1/21, weil 7 mal 3 ergibt 21.' Zeige mithilfe der Vergleichsfunktion (am Rand oben), ob du Michael zustimmst oder nicht.";
+	public static String gtask2Point6setC = "Amir sagt: '7/3 = 1/21, weil 7 mal 3 ergibt 21.' Zeige mithilfe der Vergleichsfunktion (am Rand oben), ob du Amir zustimmst oder nicht.";
 
 	public static String gtask2Point7setA = "Erstelle einen Bruch der wertgleich zu dem Bruch 1/6 ist und 18 als Nenner hat. Prüfe, ob dein Bruch wertgleich mit 1/6 ist, indem du die Vergleichsfunktion (am Rand oben) benutzt."; 
 
